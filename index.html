@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quantum Jobs Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#0a0f2c; color:#fff; }
+    header { background:#11173d; padding:15px; text-align:center; font-size:22px; font-weight:bold; }
+    nav { background:#1a1f4c; padding:10px; display:flex; justify-content:space-around; }
+    nav button { background:#3d4dff; border:none; color:white; padding:8px 15px; border-radius:8px; cursor:pointer; }
+    nav button:hover { background:#5d6dff; }
+    section { display:none; padding:20px; animation: fadeIn 0.6s; }
+    .active { display:block; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .card { background:#1a1f4c; padding:20px; border-radius:10px; margin:10px 0; box-shadow:0 4px 6px rgba(0,0,0,0.4); }
+    input, textarea, select { width:100%; padding:10px; margin:8px 0; border:none; border-radius:6px; }
+    .btn { background:#3d4dff; padding:10px 15px; color:white; border:none; border-radius:8px; cursor:pointer; }
+    .btn:hover { background:#5d6dff; }
+    #loginPage { display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; }
+    #loginPage input { width:250px; margin:10px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="loginPage">
+    <h2>🔐 Quantum Jobs Tracker - Login</h2>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button class="btn" onclick="login()">Login</button>
+  </div>
+
+  <!-- Main App -->
+  <div id="app" style="display:none;">
+    <header>⚛ Quantum Jobs Tracker</header>
+    <nav>
+      <button onclick="showSection('profile')">Profile</button>
+      <button onclick="showSection('jobs')">Jobs</button>
+      <button onclick="showSection('graphs')">Graphs</button>
+      <button onclick="showSection('alerts')">Alerts</button>
+      <button onclick="showSection('help')">Help</button>
+      <button onclick="showSection('feedback')">Feedback</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+
+    <!-- Profile Section -->
+    <section id="profile" class="active">
+      <h2>👤 User Profile</h2>
+      <div class="card">
+        <p><b>Name:</b> John Doe</p>
+        <p><b>Education:</b> M.Sc. Quantum Computing</p>
+        <p><b>Skills:</b> Qiskit, Python, ML, Data Analysis</p>
+        <p><b>Experience:</b> 2 Years</p>
+      </div>
+    </section>
+
+    <!-- Jobs Section -->
+    <section id="jobs">
+      <h2>💼 Available Jobs</h2>
+      <div class="card">
+        <p><b>Quantum Software Engineer</b> - IBM</p>
+        <p>Status: Open</p>
+        <button class="btn" onclick="applyJob('Quantum Software Engineer')">Apply</button>
+      </div>
+      <div class="card">
+        <p><b>Quantum Research Intern</b> - Google</p>
+        <p>Status: Open</p>
+        <button class="btn" onclick="applyJob('Quantum Research Intern')">Apply</button>
+      </div>
+    </section>
+
+    <!-- Graphs Section -->
+    <section id="graphs">
+      <h2>📊 Job Statistics</h2>
+      <canvas id="jobsChart" width="400" height="200"></canvas>
+    </section>
+
+    <!-- Alerts Section -->
+    <section id="alerts">
+      <h2>🚨 Alerts</h2>
+      <div id="alertBox" class="card">No new alerts</div>
+    </section>
+
+    <!-- Help Section -->
+    <section id="help">
+      <h2>❓ Help Section</h2>
+      <textarea placeholder="Describe your issue here..."></textarea>
+      <button class="btn">Submit</button>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback">
+      <h2>⭐ Feedback</h2>
+      <textarea placeholder="Write your feedback..."></textarea>
+      <button class="btn">Send</button>
+    </section>
+  </div>
+
+<script>
+  function login() {
+    document.getElementById('loginPage').style.display = "none";
+    document.getElementById('app').style.display = "block";
+  }
+  function logout() {
+    document.getElementById('app').style.display = "none";
+    document.getElementById('loginPage').style.display = "flex";
+  }
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+  function applyJob(title) {
+    document.getElementById("alertBox").innerText = "✅ You applied for " + title;
+    showSection('alerts');
+  }
+  // Chart.js for jobs graph
+  const ctx = document.getElementById('jobsChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Applied', 'Interview', 'Selected', 'Rejected'],
+      datasets: [{
+        label: 'Job Status',
+        data: [3, 2, 1, 1],
+        backgroundColor: ['#3d4dff','#00bfff','#32cd32','#ff4d4d']
+      }]
+    }
+  });
+</script>
+</body>
+</html>
